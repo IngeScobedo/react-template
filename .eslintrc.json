@@ -8,7 +8,8 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking" // This line was added
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -17,7 +18,7 @@
     },
     "ecmaVersion": 2021,
     "sourceType": "module",
-    "project": "./tsconfig.json" // This line was added
+    "project": "./tsconfig.json"
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
