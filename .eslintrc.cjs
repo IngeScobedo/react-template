@@ -25,7 +25,7 @@ module.exports = {
     },
     EXPERIMENTAL_useSourceOfProjectReferenceRedirect: true
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'material-ui'],
   rules: {
     'prettier/prettier': 'error',
   },
@@ -34,5 +34,4 @@ module.exports = {
       version: 'detect',
     },
   },
-  "ignorePattens": ['.eslintrc.cjs']
 }
