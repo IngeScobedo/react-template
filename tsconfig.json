@@ -17,6 +17,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "./.eslintrc.cjs", "@testing-library/jest-dom"],
+  "include": ["src", "./.eslintrc.cjs", "@testing-library/jest-dom", "cypress.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

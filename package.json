@@ -17,7 +17,8 @@
     "build-storybook": "build-storybook",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "cypress:run": "cypress run --config video=false --component"
   },
   "dependencies": {
     "@testing-library/dom": "^9.2.0",
@@ -43,6 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@vitejs/plugin-react": "^3.1.0",
     "babel-loader": "^8.3.0",
+    "cypress": "^12.9.0",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^34.0.1",
