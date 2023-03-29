@@ -21,14 +21,14 @@
     "cypress:run": "cypress run --config video=false --component"
   },
   "dependencies": {
-    "@testing-library/dom": "^9.2.0",
-    "@testing-library/user-event": "^14.4.3",
-    "@types/testing-library__jest-dom": "^5.14.5",
-    "@vitest/ui": "^0.29.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^9.2.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/testing-library__jest-dom": "^5.14.5",
+    "@vitest/ui": "^0.29.8",
     "@babel/core": "^7.21.3",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
@@ -43,6 +43,7 @@
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.8",
     "babel-loader": "^8.3.0",
     "cypress": "^12.9.0",
     "eslint": "^8.37.0",
