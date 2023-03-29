@@ -1,8 +1,8 @@
-import App from '../../App';
+import NotesApp from '../../NotesApp';
 
 describe('App', () => {
   it('should render and Vite text exists', () => {
-    cy.mount(<App />);
+    cy.mount(<NotesApp />);
     cy.contains('Vite')
   });
 });

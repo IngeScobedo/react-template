@@ -1,13 +1,13 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import App from '../App'
+import NotesApp from '../NotesApp'
 
 export default {
   title: 'Components/App',
-  component: App,
-} as ComponentMeta<typeof App>
+  component: NotesApp,
+} as ComponentMeta<typeof NotesApp>
 
 // eslint-disable-next-line
-const Template: ComponentStory<typeof App> = () => <App />
+const Template: ComponentStory<typeof NotesApp> = () => <NotesApp />
 
 export const Default = Template.bind({})
