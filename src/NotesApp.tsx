@@ -1,9 +1,11 @@
+import { BrowserRouter } from 'react-router-dom'
+import NotesAppRouter from './router/NotesAppRouter'
 const NotesApp = () => {
 
   return (
-    <div className="App">
-      limpio
-    </div>
+    <BrowserRouter>
+      <NotesAppRouter />
+    </BrowserRouter>
   )
 }
 
