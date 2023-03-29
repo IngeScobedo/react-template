@@ -4,7 +4,6 @@ import NotesAppRouter from './router/NotesAppRouter'
 import { store } from './store/store'
 import { AppTheme } from './theme'
 const NotesApp = () => {
-
   return (
     <Provider store={store}>
       <BrowserRouter>

@@ -8,7 +8,7 @@ export const useCheckAuth = () => {
   const authState = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
-      dispatch(logout())
+    dispatch(logout())
   }, [])
   return authState.status
 }

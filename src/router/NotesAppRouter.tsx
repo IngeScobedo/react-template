@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom"
-import Login from "../auth/pages/Login"
-import AuthRoutes from "../auth/routes/AuthRoutes"
-import { useCheckAuth } from "../hooks/useCheckAuth"
-import { CheckingAuth } from "../ui/components/CheckingAuth"
+import { Route, Routes } from 'react-router-dom'
+import Login from '../auth/pages/Login'
+import AuthRoutes from '../auth/routes/AuthRoutes'
+import { useCheckAuth } from '../hooks/useCheckAuth'
+import { CheckingAuth } from '../ui/components/CheckingAuth'
 
 const NotesAppRouter = () => {
   const status = useCheckAuth()
@@ -12,8 +12,8 @@ const NotesAppRouter = () => {
   // }
   return (
     <Routes>
-        <Route path="/*" element={<Login />} />
-        <Route path="/auth/*" element={<AuthRoutes />} />
+      <Route path="/*" element={<Login />} />
+      <Route path="/auth/*" element={<AuthRoutes />} />
     </Routes>
   )
 }

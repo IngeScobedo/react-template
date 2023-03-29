@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import blueTheme from './blueTheme'
 
 interface Props {
-    children: ReactNode
+  children: ReactNode
 }
 
 const AppTheme = ({ children }: Props) => {

@@ -4,10 +4,10 @@ import { screen } from './utils'
 import NotesApp from '../NotesApp'
 
 describe('App', () => {
-    afterEach(cleanup)
+  afterEach(cleanup)
 
-    it('should render App', (): void => {
-        render(<NotesApp />)
-        screen.queryAllByText(/Vite/i)
-    })
+  it('should render App', (): void => {
+    render(<NotesApp />)
+    screen.queryAllByText(/Vite/i)
+  })
 })
