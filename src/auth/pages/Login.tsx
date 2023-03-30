@@ -1,4 +1,13 @@
-import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
+import {
+  Alert,
+  Button,
+  Grid,
+  Input,
+  InputLabel,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { useMemo, useState } from 'react'
 import AuthLayout from '../layout/AuthLayout'
 import { Link as RouterLink } from 'react-router-dom'
@@ -22,7 +31,9 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<Inputs> = (data): void => {
+    console.log(data)
+  }
 
   return (
     <AuthLayout
@@ -32,7 +43,9 @@ const Login = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
-            <TextField
+            <InputLabel htmlFor="email-input">Correo Electrónico</InputLabel>
+            {/* <TextField
+              id={'email-input'}
               label="Email"
               type="email"
               error={errors.email && formSubmitted}
@@ -40,11 +53,22 @@ const Login = () => {
               placeholder="correo@mail.com"
               fullWidth
               {...register('email', { required: true })}
+            /> */}
+            <Input
+              id={'email-input'}
+              type="email"
+              error={errors.email && formSubmitted}
+              placeholder="Ingresa tu Correo Electrónico"
+              fullWidth
+              sx={{ height: '38px', borderRadius: '5px' }}
+              {...register('email', { required: true })}
             />
           </Grid>
 
           <Grid item xs={12} sx={{ mt: 2 }}>
+            <InputLabel htmlFor="password-input">Contraseña</InputLabel>
             <TextField
+              id="password-input"
               label="Password"
               type="password"
               placeholder="your password"

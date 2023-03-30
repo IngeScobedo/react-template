@@ -25,6 +25,14 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'material-ui'],
   rules: {
     'prettier/prettier': 'error',
+    '@typescript-eslint/no-misused-promises': [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
   },
   settings: {
     react: {
