@@ -7,6 +7,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { RootState } from '../../store/store'
 import Input from '../components/input/Input'
 import Button from '../components/button/Button'
+import { inputsValidators } from '../utils/validators'
 
 type Inputs = {
   email: RegExp
@@ -15,11 +16,6 @@ type Inputs = {
 
 const Login = () => {
   const { status } = useSelector((state: RootState) => state.auth)
-
-  const loginValidators = {
-    email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-    password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-  }
 
   const isAuthenticating = useMemo(() => status === 'checking', [status])
 
@@ -42,7 +38,7 @@ const Login = () => {
       title="¡Bienvenido de nuevo!"
       description="Ingresa con tu usuario y contraseña para acceder a la plataforma."
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id="login-form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Input
             label="Correo Electrónico"
@@ -53,7 +49,7 @@ const Login = () => {
             {...register('email', {
               required: true,
               pattern: {
-                value: loginValidators.email,
+                value: inputsValidators.email,
                 message: 'Esto no es un correo válido',
               },
             })}
@@ -78,16 +74,15 @@ const Login = () => {
             {...register('password', {
               required: true,
               pattern: {
-                value: loginValidators.password,
+                value: inputsValidators.password,
                 message: 'El correo o la contraseña son invalidos',
               },
             })}
           />
-
-          <Button variant="contained" fullWidth type="submit" form="login-form">
-            Ingresar
-          </Button>
         </Grid>
+        <Button variant="contained" fullWidth type="submit" form="login-form">
+          Ingresar
+        </Button>
       </form>
     </AuthLayout>
   )

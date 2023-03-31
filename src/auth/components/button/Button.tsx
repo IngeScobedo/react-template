@@ -5,10 +5,19 @@ export interface Props extends ButtonProps {
   children: ReactNode
 }
 
-const Button = ({ children, ...props }: Props) => {
+const Button = ({ children, variant, ...props }: Props) => {
   return (
     <Grid item xs={12}>
-      <MButton {...props}>{children}</MButton>
+      <MButton
+        variant={variant}
+        sx={{
+          fontWeight: variant === 'contained' ? '500' : '400',
+          fontSize: '14px',
+        }}
+        {...props}
+      >
+        {children}
+      </MButton>
     </Grid>
   )
 }

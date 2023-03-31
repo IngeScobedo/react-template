@@ -18,23 +18,25 @@ const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />
 
 export const Default = Template.bind({})
 
-export const Email = Template.bind({})
+const Email = Template.bind({})
 Email.args = {
   variant: 'email',
   placeholder: 'Ingresa tu correo electronico',
   label: 'Correo Electrónico',
 }
 
-export const Password = Template.bind({})
+const Password = Template.bind({})
 Password.args = {
   variant: 'password',
   label: 'Contraseña',
   placeholder: 'Ingresa tu contraseña',
 }
 
-export const NoteTitle = Template.bind({})
+const NoteTitle = Template.bind({})
 NoteTitle.args = {
   variant: 'note-title',
   label: 'Titulo de la nota',
   placeholder: 'Ingresar titulo',
 }
+
+export { Email, Password, NoteTitle }
