@@ -5,8 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { RootState } from '../../store/store'
-import Input from '../components/input/Input'
-import Button from '../components/button/Button'
+import { Button, Input } from '../../ui/components'
 import { inputsValidators } from '../utils/validators'
 
 type Inputs = {
@@ -79,10 +78,16 @@ const Login = () => {
               },
             })}
           />
+          <Button
+            sx={{ mt: 2 }}
+            variant="contained"
+            fullWidth
+            type="submit"
+            form="login-form"
+          >
+            Ingresar
+          </Button>
         </Grid>
-        <Button variant="contained" fullWidth type="submit" form="login-form">
-          Ingresar
-        </Button>
       </form>
     </AuthLayout>
   )

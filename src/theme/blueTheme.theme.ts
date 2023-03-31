@@ -8,12 +8,14 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     inputError: React.CSSProperties
     link: React.CSSProperties
+    buttonLink: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     inputError?: React.CSSProperties
     link?: React.CSSProperties
+    buttonLink?: React.CSSProperties
   }
 
   interface PaletteOptions {
@@ -33,6 +35,7 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     inputError: true
     link: true
+    buttonLink: true
   }
 }
 
@@ -91,6 +94,11 @@ const blueTheme = createTheme({
     },
     link: {
       fontSize: '12px',
+      lineHeight: '18px',
+      color: '#5D7FC8',
+    },
+    buttonLink: {
+      fontSize: '14px',
       lineHeight: '18px',
       color: '#5D7FC8',
     },

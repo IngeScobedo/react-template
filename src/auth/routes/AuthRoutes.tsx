@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import Login from '../pages/Login'
-import RecoverPassword from '../pages/RecoverPassword'
+import { Login, RecoverPassword, RestorePassword } from '../pages'
 
 const AuthRoutes = () => {
   return (
@@ -8,6 +7,7 @@ const AuthRoutes = () => {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="recovery" element={<RecoverPassword />} />
+        <Route path="restore" element={<RestorePassword />} />
         <Route path="/*" element={<Navigate to={'login'} />} />
       </Routes>
     </>

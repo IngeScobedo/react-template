@@ -1,7 +1,7 @@
 import { Grid, Link } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
-import { Form } from '../components'
+import { Input, Button } from '../../ui/components'
 import AuthLayout from '../layout/AuthLayout'
 import { inputsValidators } from '../utils/validators'
 
@@ -25,34 +25,37 @@ const RecoverPassword = () => {
       title="¿Olvidaste tu Contraseña?"
       description="Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña."
     >
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Input
-          label="Correo electrónico"
-          placeholder="Ingresa tu correo electrónico"
-          type="email"
-          {...register('email', {
-            required: true,
-            pattern: {
-              value: inputsValidators.email,
-              message: 'Esto no es un correo válido',
-            },
-          })}
-        />
-        <Form.Button type="submit" variant="contained" fullWidth>
-          Enviar Instrucciones
-        </Form.Button>
-        <Grid item xs={12}>
-          <Link
-            underline="hover"
-            align="center"
-            variant="link"
-            to={'/auth/login'}
-            component={NavLink}
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
+      <form id="login-form" onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2}>
+          <Input
+            label="Correo electrónico"
+            placeholder="Ingresa tu correo electrónico"
+            type="email"
+            errorMessage={errors.email && errors.email.message}
+            {...register('email', {
+              required: true,
+              pattern: {
+                value: inputsValidators.email,
+                message: 'Esto no es un correo válido',
+              },
+            })}
+          />
+          <Button type="submit" variant="contained" fullWidth>
+            Enviar Instrucciones
+          </Button>
+          <Grid item xs={12} sx={{ textAlign: 'center' }}>
+            <Link
+              underline="hover"
+              align="center"
+              variant="buttonLink"
+              to={'/auth/login'}
+              component={NavLink}
+            >
+              Regresar
+            </Link>
+          </Grid>
         </Grid>
-      </Form>
+      </form>
     </AuthLayout>
   )
 }

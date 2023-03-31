@@ -85,6 +85,7 @@ const Input = forwardRef(
             {OptionalComponent && <OptionalComponent />}
           </Grid>
           <MInput
+            id={id}
             type={typeOfInput}
             error={errorMessage ? true : false}
             ref={ref}
