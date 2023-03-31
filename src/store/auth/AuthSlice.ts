@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit/'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-
 export interface User {
   id: number
   name: string
@@ -23,7 +22,7 @@ const initialState: AuthState = {
   isLoggedIn: false,
   isLogged: false,
   errorMessage: '',
-  status: 'checking',
+  status: 'not-authenticated',
 }
 
 export const authSlice = createSlice({

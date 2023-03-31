@@ -4,11 +4,13 @@ import RecoverPassword from '../pages/RecoverPassword'
 
 const AuthRoutes = () => {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/recovery" element={<RecoverPassword />} />
-      <Route path="/*" element={<Navigate to={'/login'} replace />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="recovery" element={<RecoverPassword />} />
+        <Route path="/*" element={<Navigate to={'login'} />} />
+      </Routes>
+    </>
   )
 }
 

@@ -1,7 +1,7 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles/'
 import { ReactNode } from 'react'
-import blueTheme from './blueTheme'
+import blueTheme from './blueTheme.theme'
 
 interface Props {
   children: ReactNode
@@ -15,5 +15,7 @@ const AppTheme = ({ children }: Props) => {
     </ThemeProvider>
   )
 }
+
+export const decorators = [AppTheme]
 
 export default AppTheme

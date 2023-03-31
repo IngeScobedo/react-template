@@ -1,11 +1,40 @@
-import { Meta } from '@storybook/react'
-import Input from '../../components/Input'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
+import Input from '../../components/input/Input'
 
-const meta: Meta = {
+export default {
   title: 'Input',
   component: Input,
+  argTypes: {
+    label: {
+      defaultValue: 'Default label',
+    },
+    placeholder: {
+      defaultValue: 'Insert your ...',
+    },
+  },
+} as ComponentMeta<typeof Input>
+
+const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />
+
+export const Default = Template.bind({})
+
+export const Email = Template.bind({})
+Email.args = {
+  variant: 'email',
+  placeholder: 'Ingresa tu correo electronico',
+  label: 'Correo Electrónico',
 }
 
-export default meta
+export const Password = Template.bind({})
+Password.args = {
+  variant: 'password',
+  label: 'Contraseña',
+  placeholder: 'Ingresa tu contraseña',
+}
 
-export const Default = () => <Input variant="primary" />
+export const NoteTitle = Template.bind({})
+NoteTitle.args = {
+  variant: 'note-title',
+  label: 'Titulo de la nota',
+  placeholder: 'Ingresar titulo',
+}
