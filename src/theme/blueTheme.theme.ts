@@ -9,6 +9,7 @@ declare module '@mui/material/styles' {
     inputError: React.CSSProperties
     link: React.CSSProperties
     buttonLink: React.CSSProperties
+    navbarUserLabel: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
@@ -16,6 +17,7 @@ declare module '@mui/material/styles' {
     inputError?: React.CSSProperties
     link?: React.CSSProperties
     buttonLink?: React.CSSProperties
+    navbarUserLabel?: React.CSSProperties
   }
 
   interface PaletteOptions {
@@ -36,6 +38,7 @@ declare module '@mui/material/Typography' {
     inputError: true
     link: true
     buttonLink: true
+    navbarUserLabel: true
   }
 }
 
@@ -101,6 +104,11 @@ const blueTheme = createTheme({
       fontSize: '14px',
       lineHeight: '18px',
       color: '#5D7FC8',
+    },
+    navbarUserLabel: {
+      fontSize: '14px',
+      fontWeight: '500',
+      lineHeight: '18px',
     },
   },
 })

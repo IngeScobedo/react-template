@@ -1,4 +1,4 @@
-type InputsValidatorsType = {
+export type InputsValidatorsType = {
   email: RegExp
   password: RegExp
 }

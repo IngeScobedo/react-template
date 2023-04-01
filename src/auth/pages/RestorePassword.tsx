@@ -1,24 +1,64 @@
+import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Input, Button } from '../../ui/components'
-import AuthLayout from '../layout/AuthLayout'
-import { inputsValidators } from '../utils/validators'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
-type Inputs = {
-  password: string
-  confirmPassword: string
-}
+import { AuthLayout } from '../layout/'
+import { Input, Button } from '../../ui/'
+import { useRestorePasswordMutation } from '../../store/auth'
+import { checkMutationError } from '../utils/'
+import {
+  RestorePasswordInputs,
+  RestorePasswordInputsErrors,
+} from '../interfaces'
+import { resetPasswordOptions } from '.'
 
 const RestorePassword = () => {
+  const navigate = useNavigate()
+  const [inputErrors, setInputErrors] = useState<RestorePasswordInputsErrors>(
+    {}
+  )
+  const [resetPassword] = useRestorePasswordMutation()
+  const [urlSearchParams] = useSearchParams()
+  const { token } = Object.fromEntries([...urlSearchParams])
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<RestorePasswordInputs>(resetPasswordOptions)
 
-  const onSubmit: SubmitHandler<Inputs> = (data): void => {
+  const onSubmit: SubmitHandler<RestorePasswordInputs> = async (
+    data
+  ): Promise<void> => {
     console.log(data, errors)
+    await resetPassword({
+      password: data.password,
+      token,
+    })
+      .unwrap()
+      .then((res) => console.log(res))
+      .catch((err) => {
+        const errors = checkMutationError(err)
+        setInputErrors(errors)
+      })
   }
+
+  const handleInputError = (name: keyof RestorePasswordInputs) => {
+    const error = errors[name]
+    if (error) {
+      return error.message
+    }
+    return inputErrors[name]
+  }
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/auth/login', { replace: true })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
+
   return (
     <AuthLayout
       title="Restablecer Contraseña"
@@ -30,29 +70,15 @@ const RestorePassword = () => {
             type="password"
             label="Nueva contraseña"
             placeholder="Ingresar nueva contraseña"
-            errorMessage={errors.password && errors.password.message}
-            {...register('password', {
-              required: true,
-              pattern: {
-                value: inputsValidators.password,
-                message: 'El correo o la contraseña son invalidos',
-              },
-            })}
+            errorMessage={handleInputError('password')}
+            {...register('password')}
           />
           <Input
             type="password"
             label="Confirmar contraseña"
             placeholder="Confirmar contraseña"
-            errorMessage={
-              errors.confirmPassword && errors.confirmPassword.message
-            }
-            {...register('confirmPassword', {
-              required: true,
-              pattern: {
-                value: inputsValidators.password,
-                message: 'El correo o la contraseña son invalidos',
-              },
-            })}
+            errorMessage={handleInputError('confirmPassword')}
+            {...register('confirmPassword')}
           />
 
           <Button

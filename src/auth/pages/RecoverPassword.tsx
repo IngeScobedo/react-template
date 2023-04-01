@@ -1,25 +1,44 @@
+import { useState } from 'react'
 import { Grid, Link } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { NavLink } from 'react-router-dom'
-import { Input, Button } from '../../ui/components'
-import AuthLayout from '../layout/AuthLayout'
-import { inputsValidators } from '../utils/validators'
+import { NavLink, useNavigate } from 'react-router-dom'
 
-type Inputs = {
-  email: string
-}
+import { useRecoverPasswordMutation } from '../../store/auth/'
+import { Input, Button } from '../../ui'
+import { AuthLayout } from '../layout'
+import { checkMutationError, inputsValidators } from '../utils'
+import { RecoverPasswordInputs } from '../interfaces'
 
 const RecoverPassword = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<RecoverPasswordInputs>()
+  const navigate = useNavigate()
+  const [mutationError, setMutationError] = useState('')
+  const [recover] = useRecoverPasswordMutation()
 
-  const onSubmit: SubmitHandler<Inputs> = (data): void => {
+  const onSubmit: SubmitHandler<RecoverPasswordInputs> = async (
+    data
+  ): Promise<void> => {
     console.log(data, errors)
+    await recover(data)
+      .unwrap()
+      .then(({ token }) => navigate(`/auth/restore?token=${token}`))
+      .catch((err) => {
+        const { email } = checkMutationError(err)
+        email && setMutationError(email)
+      })
   }
 
+  const handleInputError = (name: keyof RecoverPasswordInputs) => {
+    const error = errors[name]
+    if (error) {
+      return error.message
+    }
+    return mutationError
+  }
   return (
     <AuthLayout
       title="¿Olvidaste tu Contraseña?"
@@ -31,12 +50,12 @@ const RecoverPassword = () => {
             label="Correo electrónico"
             placeholder="Ingresa tu correo electrónico"
             type="email"
-            errorMessage={errors.email && errors.email.message}
+            errorMessage={handleInputError('email')}
             {...register('email', {
               required: true,
               pattern: {
                 value: inputsValidators.email,
-                message: 'Esto no es un correo válido',
+                message: 'Ingresa un correo electrónico válido.',
               },
             })}
           />

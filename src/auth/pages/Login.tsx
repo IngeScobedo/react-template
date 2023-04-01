@@ -1,36 +1,53 @@
+import { useState } from 'react'
 import { Grid, Link } from '@mui/material'
-import { useEffect, useMemo } from 'react'
-import AuthLayout from '../layout/AuthLayout'
 import { NavLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { RootState } from '../../store/store'
-import { Button, Input } from '../../ui/components'
-import { inputsValidators } from '../utils/validators'
 
-type Inputs = {
-  email: RegExp
-  password: string
-}
+import { AuthLayout } from '../layout'
+import { Button, Input } from '../../ui'
+import { inputsValidators, checkMutationError } from '../utils'
+import { login, useLoginMutation } from '../../store/auth/'
+import { useAppSelector } from '../../store/'
+import { Error } from '../components'
+import { LoginInputErrors, LoginInputs } from '../interfaces'
 
 const Login = () => {
-  const { status } = useSelector((state: RootState) => state.auth)
-
-  const isAuthenticating = useMemo(() => status === 'checking', [status])
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>()
+  } = useForm<LoginInputs>()
 
-  const onSubmit: SubmitHandler<Inputs> = (data): void => {
-    console.log(data, errors)
+  const dispatch = useDispatch()
+  const { errorMessage } = useAppSelector((state) => state.auth)
+  const [userLogin, { isLoading }] = useLoginMutation()
+  const [inputsErrors, setInputsErrors] = useState<LoginInputErrors>({})
+
+  const onSubmit: SubmitHandler<LoginInputs> = async (
+    data: LoginInputs
+  ): Promise<void> => {
+    // ! mover logica
+    await userLogin(data)
+      .unwrap()
+      .then((data) => dispatch(login(data.user)))
+      .catch((err) => {
+        handleMutationError(err)
+      })
   }
 
-  useEffect(() => {
-    console.log('inputs', errors)
-  }, [errors])
+  const handleMutationError = (err: unknown) => {
+    const errors = checkMutationError(err)
+    setInputsErrors(errors)
+  }
+
+  const handleInputError = (name: keyof LoginInputs) => {
+    const error = errors[name]
+    if (error) {
+      return error.message
+    }
+    return inputsErrors[name]
+  }
 
   return (
     <AuthLayout
@@ -44,12 +61,13 @@ const Login = () => {
             variant="email"
             id={'email-input'}
             placeholder="Ingresa tu Correo Electrónico"
-            errorMessage={errors.email && errors.email.message}
+            disabled={isLoading}
+            errorMessage={handleInputError('email')}
             {...register('email', {
               required: true,
               pattern: {
                 value: inputsValidators.email,
-                message: 'Esto no es un correo válido',
+                message: 'Ingresa un correo electrónico válido.',
               },
             })}
           />
@@ -59,7 +77,8 @@ const Login = () => {
             variant="password"
             id={'password-input'}
             placeholder="Ingresa contraseña"
-            errorMessage={errors.password && errors.password.message}
+            errorMessage={handleInputError('password')}
+            disabled={isLoading}
             OptionalComponent={() => (
               <Link
                 underline="hover"
@@ -72,13 +91,13 @@ const Login = () => {
             )}
             {...register('password', {
               required: true,
-              pattern: {
-                value: inputsValidators.password,
-                message: 'El correo o la contraseña son invalidos',
-              },
             })}
           />
+
+          {errorMessage && <Error>{errorMessage}</Error>}
+
           <Button
+            disabled={isLoading}
             sx={{ mt: 2 }}
             variant="contained"
             fullWidth

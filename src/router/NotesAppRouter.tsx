@@ -1,17 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AuthRoutes from '../auth/routes/AuthRoutes'
 import NotesRoutes from '../notes/routes/NotesRoutes'
-import { CheckingAuth } from '../ui/components/CheckingAuth'
+import { useAppSelector } from '../store/hooks'
 
 const NotesAppRouter = () => {
-  const dispatch = useDispatch()
-  const { status } = useSelector((state: RootState) => state.auth)
-
-  if (status === 'checking') {
-    return <CheckingAuth />
-  }
-
+  const { status } = useAppSelector((store) => store.auth)
   return (
     <Routes>
       {status === 'authenticated' ? (
