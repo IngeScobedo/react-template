@@ -64,7 +64,7 @@ const RestorePassword = () => {
       title="Restablecer Contraseña"
       description="Establece tu nueva contraseña y guárdala en un lugar seguro."
     >
-      <form id="login-form" onSubmit={handleSubmit(onSubmit)}>
+      <form id="reset-form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Input
             type="password"
@@ -86,7 +86,7 @@ const RestorePassword = () => {
             variant="contained"
             fullWidth
             type="submit"
-            form="login-form"
+            form="reset-form"
           >
             Restablecer contraseña
           </Button>

@@ -31,6 +31,7 @@ export const authApi = createApi({
         method: 'POST',
         body: req.password,
         headers: { Authorization: `Bearer ${req.token}` },
+        responseHandler: (res) => res.text(),
       }),
     }),
   }),

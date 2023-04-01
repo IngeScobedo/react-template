@@ -2,11 +2,7 @@ import { RestorePasswordInputsErrors } from './../interfaces/interfaces'
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {
-  LoginInputErrors,
-  FetchBaseQueryError,
-  CustomError,
-} from './../interfaces/'
+import { LoginInputErrors, FetchBaseQueryError } from './../interfaces/'
 /**
  * Type predicate to narrow an unknown error to `FetchBaseQueryError`
  */
@@ -15,11 +11,6 @@ export function isFetchBaseQueryError(
 ): error is FetchBaseQueryError {
   return typeof error === 'object' && error != null && 'status' in error
 }
-
-export function isCustomError(error: unknown): error is CustomError {
-  return typeof error === 'object' && error != null
-}
-
 /**
  * Type predicate to narrow an unknown error to an object with a string 'message' property
  */
@@ -40,9 +31,7 @@ export function checkMutationError(
   console.log('checkerror', err)
   let errMsg = ''
 
-  if (isCustomError(err)) {
-    errMsg = err.data.err
-  } else if (isFetchBaseQueryError(err)) {
+  if (isFetchBaseQueryError(err)) {
     errMsg = 'error' in err ? err.error : err.data.err
   } else if (isErrorWithMessage(err)) {
     errMsg = err.message
