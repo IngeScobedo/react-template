@@ -5,7 +5,7 @@ import {
   RecoverResponse,
   RecoverRequest,
   ResetPasswordRequest,
-} from '../interfaces/interfaces'
+} from '../interfaces'
 
 export const authApi = createApi({
   reducerPath: 'api',

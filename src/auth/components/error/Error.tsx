@@ -1,14 +1,13 @@
 import { Grid, Typography } from '@mui/material'
-import { ReactNode } from 'react'
 
 export interface Props {
-  children: ReactNode
+  errorMessage: string
 }
 
-const Error = ({ children }: Props) => {
+const Error = ({ errorMessage }: Props) => {
   return (
     <Grid item xs={12}>
-      <Typography sx={{ textAlign: 'center' }}>{children}</Typography>
+      <Typography sx={{ textAlign: 'center' }}>{errorMessage}</Typography>
     </Grid>
   )
 }

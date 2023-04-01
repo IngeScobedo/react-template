@@ -11,14 +11,15 @@ import {
   RestorePasswordInputs,
   RestorePasswordInputsErrors,
 } from '../interfaces'
-import { resetPasswordOptions } from '.'
+import { resetPasswordFormOptions } from '.'
+import useResetPassword from '../hooks/useResetPassword'
 
 const RestorePassword = () => {
   const navigate = useNavigate()
   const [inputErrors, setInputErrors] = useState<RestorePasswordInputsErrors>(
     {}
   )
-  const [resetPassword] = useRestorePasswordMutation()
+  const { resetPassword, isLoading } = useResetPassword()
   const [urlSearchParams] = useSearchParams()
   const { token } = Object.fromEntries([...urlSearchParams])
 
@@ -26,7 +27,7 @@ const RestorePassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RestorePasswordInputs>(resetPasswordOptions)
+  } = useForm<RestorePasswordInputs>(resetPasswordFormOptions)
 
   const onSubmit: SubmitHandler<RestorePasswordInputs> = async (
     data
@@ -36,12 +37,6 @@ const RestorePassword = () => {
       password: data.password,
       token,
     })
-      .unwrap()
-      .then((res) => console.log(res))
-      .catch((err) => {
-        const errors = checkMutationError(err)
-        setInputErrors(errors)
-      })
   }
 
   const handleInputError = (name: keyof RestorePasswordInputs) => {

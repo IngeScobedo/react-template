@@ -1,5 +1,24 @@
-import { User } from '../auth/AuthSlice'
+// Reducex states
+// Define a type for the slice state
+export interface AuthState {
+  user: User | undefined
+  isLoggedIn: boolean
+  isLogged: boolean
+  errorMessage: string | undefined
+  status: 'not-authenticated' | 'authenticated'
+  token: string | undefined
+}
 
+// RTK Query
+
+export interface User {
+  _id: number
+  name: string
+  email: string
+  created_at?: number
+  renovated_at?: number | undefined
+  expiration?: number
+}
 export interface UserResponse {
   user: User
   token: string

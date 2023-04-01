@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { Grid, Link } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-import { useRecoverPasswordMutation } from '../../store/auth/'
 import { Input, Button } from '../../ui'
 import { AuthLayout } from '../layout'
-import { checkMutationError, inputsValidators } from '../utils'
-import { RecoverPasswordInputs } from '../interfaces'
+import { inputsValidators } from '../utils'
+import {
+  RecoverPasswordInputs,
+  RecoverPasswordInputsErrors,
+} from '../interfaces'
+import { useRecoverPassword } from '../hooks'
 
 const RecoverPassword = () => {
   const {
@@ -15,21 +18,16 @@ const RecoverPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RecoverPasswordInputs>()
-  const navigate = useNavigate()
-  const [mutationError, setMutationError] = useState('')
-  const [recover] = useRecoverPasswordMutation()
+  const [inputErrors, setInputErrors] = useState<RecoverPasswordInputsErrors>(
+    {}
+  )
+  const { recoverPassword, isLoading } = useRecoverPassword()
 
   const onSubmit: SubmitHandler<RecoverPasswordInputs> = async (
     data
   ): Promise<void> => {
-    console.log(data, errors)
-    await recover(data)
-      .unwrap()
-      .then(({ token }) => navigate(`/auth/restore?token=${token}`))
-      .catch((err) => {
-        const { email } = checkMutationError(err)
-        email && setMutationError(email)
-      })
+    const { errors: inputErrors } = await recoverPassword(data)
+    inputErrors && setInputErrors(inputErrors)
   }
 
   const handleInputError = (name: keyof RecoverPasswordInputs) => {
@@ -37,7 +35,7 @@ const RecoverPassword = () => {
     if (error) {
       return error.message
     }
-    return mutationError
+    return inputErrors[name]
   }
   return (
     <AuthLayout
@@ -51,6 +49,7 @@ const RecoverPassword = () => {
             placeholder="Ingresa tu correo electrónico"
             type="email"
             errorMessage={handleInputError('email')}
+            disabled={isLoading}
             {...register('email', {
               required: true,
               pattern: {
@@ -59,20 +58,27 @@ const RecoverPassword = () => {
               },
             })}
           />
-          <Button type="submit" variant="contained" fullWidth>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            disabled={isLoading}
+          >
             Enviar Instrucciones
           </Button>
-          <Grid item xs={12} sx={{ textAlign: 'center' }}>
-            <Link
-              underline="hover"
-              align="center"
-              variant="buttonLink"
-              to={'/auth/login'}
-              component={NavLink}
-            >
-              Regresar
-            </Link>
-          </Grid>
+          {!isLoading && (
+            <Grid item xs={12} sx={{ textAlign: 'center' }}>
+              <Link
+                underline="hover"
+                align="center"
+                variant="buttonLink"
+                to={'/auth/login'}
+                component={NavLink}
+              >
+                Regresar
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </form>
     </AuthLayout>

@@ -1,31 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit/'
 import type { PayloadAction } from '@reduxjs/toolkit'
-
-export interface User {
-  _id: number
-  name: string
-  email: string
-  created_at?: number
-  renovated_at?: number | null
-  expiration?: number
-}
-
-// Define a type for the slice state
-export interface AuthState {
-  user: User | null
-  isLoggedIn: boolean
-  isLogged: boolean
-  errorMessage: string | undefined
-  status: 'not-authenticated' | 'authenticated'
-}
+import { AuthState, RecoverResponse, User } from '../interfaces'
 
 // Define the initial state using that type
 const initialState: AuthState = {
-  user: null,
+  user: undefined,
   isLoggedIn: false,
   isLogged: false,
   errorMessage: '',
   status: 'not-authenticated',
+  token: undefined,
 }
 
 export const authSlice = createSlice({
@@ -34,18 +18,21 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, { payload }: PayloadAction<User>) => {
-      console.log(payload)
       state.user = payload
       state.status = 'authenticated'
     },
     logout: (state, { payload }: PayloadAction<{ errorMessage?: string }>) => {
-      state.user = null
+      state.user = undefined
       state.status = 'not-authenticated'
       state.errorMessage = payload?.errorMessage
+      state.token = undefined
+    },
+    setToken: (state, { payload }: PayloadAction<RecoverResponse>) => {
+      state.token = payload?.token
     },
   },
 })
 
-export const { login, logout } = authSlice.actions
+export const { login, logout, setToken } = authSlice.actions
 
 export default authSlice.reducer

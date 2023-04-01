@@ -73,6 +73,10 @@ export type RecoverPasswordInputs = {
   email: string
 }
 
+export type RecoverPasswordInputsErrors = {
+  email?: string
+}
+
 export type RestorePasswordInputs = {
   password: string
   confirmPassword: string

@@ -1,44 +1,32 @@
 import { useState } from 'react'
 import { Grid, Link } from '@mui/material'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
-import { AuthLayout } from '../layout'
-import { Button, Input } from '../../ui'
-import { inputsValidators, checkMutationError } from '../utils'
-import { login, useLoginMutation } from '../../store/auth/'
-import { useAppSelector } from '../../store/'
-import { Error } from '../components'
-import { LoginInputErrors, LoginInputs } from '../interfaces'
+import { AuthLayout } from '../../layout'
+import { Button, Input } from '../../../ui'
+import { useAppSelector } from '../../../store'
+import { Error } from '../../components'
+import { LoginInputErrors, LoginInputs } from '../../interfaces'
+import { useLoginUser } from '../../hooks'
+import { LoginFormOptions } from '..'
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInputs>()
+  } = useForm<LoginInputs>(LoginFormOptions)
 
-  const dispatch = useDispatch()
+  const [inputErrors, setInputErrors] = useState<LoginInputErrors>({})
+  const { loginUser, isLoading } = useLoginUser()
   const { errorMessage } = useAppSelector((state) => state.auth)
-  const [userLogin, { isLoading }] = useLoginMutation()
-  const [inputsErrors, setInputsErrors] = useState<LoginInputErrors>({})
 
   const onSubmit: SubmitHandler<LoginInputs> = async (
     data: LoginInputs
   ): Promise<void> => {
-    // ! mover logica
-    await userLogin(data)
-      .unwrap()
-      .then((data) => dispatch(login(data.user)))
-      .catch((err) => {
-        handleMutationError(err)
-      })
-  }
-
-  const handleMutationError = (err: unknown) => {
-    const errors = checkMutationError(err)
-    setInputsErrors(errors)
+    const { errors: inputErrors } = await loginUser(data)
+    setInputErrors(inputErrors)
   }
 
   const handleInputError = (name: keyof LoginInputs) => {
@@ -46,7 +34,7 @@ const Login = () => {
     if (error) {
       return error.message
     }
-    return inputsErrors[name]
+    return inputErrors[name]
   }
 
   return (
@@ -63,13 +51,7 @@ const Login = () => {
             placeholder="Ingresa tu Correo Electrónico"
             disabled={isLoading}
             errorMessage={handleInputError('email')}
-            {...register('email', {
-              required: true,
-              pattern: {
-                value: inputsValidators.email,
-                message: 'Ingresa un correo electrónico válido.',
-              },
-            })}
+            {...register('email')}
           />
 
           <Input
@@ -89,12 +71,10 @@ const Login = () => {
                 ¿Olvidaste tu contraseña?
               </Link>
             )}
-            {...register('password', {
-              required: true,
-            })}
+            {...register('password')}
           />
 
-          {errorMessage && <Error>{errorMessage}</Error>}
+          {errorMessage && <Error errorMessage={errorMessage} />}
 
           <Button
             disabled={isLoading}

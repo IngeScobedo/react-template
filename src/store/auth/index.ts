@@ -5,4 +5,4 @@ export {
   useRestorePasswordMutation,
 } from './AuthApi'
 
-export { authSlice, login, logout } from './AuthSlice'
+export { authSlice, login, logout, setToken } from './AuthSlice'

@@ -4,6 +4,7 @@ export type {
   LoginInputErrors,
   FetchBaseQueryError,
   RecoverPasswordInputs,
+  RecoverPasswordInputsErrors,
   RestorePasswordInputs,
   RestorePasswordInputsErrors,
   CustomError,
