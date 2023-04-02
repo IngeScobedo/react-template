@@ -2,7 +2,7 @@
 import { Grid, Input as MInput, InputProps, Typography } from '@mui/material'
 import { SxProps, Theme } from '@mui/material/styles'
 import { InputLabel } from '@mui/material'
-import { FC, forwardRef, useContext } from 'react'
+import { FC, forwardRef } from 'react'
 
 import './Input.scss'
 
@@ -61,6 +61,9 @@ const Input = forwardRef(
       },
       '&.Mui-error input:-webkit-autofill': {
         color: 'error.main',
+      },
+      '&.Mui-disabled:before': {
+        border: 'none',
       },
     }
 

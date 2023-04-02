@@ -5,14 +5,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { AuthLayout } from '../layout/'
 import { Input, Button } from '../../ui/'
-import { useRestorePasswordMutation } from '../../store/auth'
-import { checkMutationError } from '../utils/'
 import {
   RestorePasswordInputs,
   RestorePasswordInputsErrors,
 } from '../interfaces'
 import { resetPasswordFormOptions } from '.'
 import useResetPassword from '../hooks/useResetPassword'
+import { useAppSelector } from '../../store'
 
 const RestorePassword = () => {
   const navigate = useNavigate()
@@ -20,8 +19,7 @@ const RestorePassword = () => {
     {}
   )
   const { resetPassword, isLoading } = useResetPassword()
-  const [urlSearchParams] = useSearchParams()
-  const { token } = Object.fromEntries([...urlSearchParams])
+  const { token } = useAppSelector((state) => state.auth)
 
   const {
     register,
@@ -32,11 +30,12 @@ const RestorePassword = () => {
   const onSubmit: SubmitHandler<RestorePasswordInputs> = async (
     data
   ): Promise<void> => {
-    console.log(data, errors)
-    await resetPassword({
+    if (!token) return
+    const { errors } = await resetPassword({
       password: data.password,
       token,
     })
+    setInputErrors(errors)
   }
 
   const handleInputError = (name: keyof RestorePasswordInputs) => {
@@ -66,6 +65,7 @@ const RestorePassword = () => {
             label="Nueva contraseña"
             placeholder="Ingresar nueva contraseña"
             errorMessage={handleInputError('password')}
+            disabled={isLoading}
             {...register('password')}
           />
           <Input
@@ -73,6 +73,7 @@ const RestorePassword = () => {
             label="Confirmar contraseña"
             placeholder="Confirmar contraseña"
             errorMessage={handleInputError('confirmPassword')}
+            disabled={isLoading}
             {...register('confirmPassword')}
           />
 
@@ -82,6 +83,7 @@ const RestorePassword = () => {
             fullWidth
             type="submit"
             form="reset-form"
+            disabled={isLoading}
           >
             Restablecer contraseña
           </Button>

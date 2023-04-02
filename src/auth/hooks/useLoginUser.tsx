@@ -14,7 +14,7 @@ export const useLoginUser = () => {
   ): Promise<{ errors: LoginInputErrors; user: User | null }> => {
     try {
       const response = await userLogin(data).unwrap()
-      dispatch(login(response.user))
+      dispatch(login(response))
 
       return { errors: {}, user: response.user }
     } catch (error) {

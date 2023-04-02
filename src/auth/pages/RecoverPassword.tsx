@@ -18,16 +18,16 @@ const RecoverPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RecoverPasswordInputs>()
+  const { recoverPassword, isLoading } = useRecoverPassword()
   const [inputErrors, setInputErrors] = useState<RecoverPasswordInputsErrors>(
     {}
   )
-  const { recoverPassword, isLoading } = useRecoverPassword()
 
   const onSubmit: SubmitHandler<RecoverPasswordInputs> = async (
     data
   ): Promise<void> => {
     const { errors: inputErrors } = await recoverPassword(data)
-    inputErrors && setInputErrors(inputErrors)
+    setInputErrors(inputErrors)
   }
 
   const handleInputError = (name: keyof RecoverPasswordInputs) => {

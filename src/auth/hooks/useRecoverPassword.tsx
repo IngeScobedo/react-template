@@ -19,7 +19,7 @@ export const useLoginUser = () => {
     try {
       const response = await recovery(data).unwrap()
       dispatch(setToken({ token: response.token }))
-      navigate(`/auth/restore?token=${response.token}`)
+      navigate(`/auth/restore`)
       return { errors: {}, token: response.token }
     } catch (error) {
       const errors = checkMutationError(error)

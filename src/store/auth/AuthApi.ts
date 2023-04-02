@@ -29,7 +29,7 @@ export const authApi = createApi({
       query: (req) => ({
         url: '/api/reset_password',
         method: 'POST',
-        body: req.password,
+        body: { password: req.password },
         headers: { Authorization: `Bearer ${req.token}` },
         responseHandler: (res) => res.text(),
       }),

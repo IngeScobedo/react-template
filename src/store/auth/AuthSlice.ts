@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit/'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { AuthState, RecoverResponse, User } from '../interfaces'
+import { AuthState, RecoverResponse, UserResponse } from '../interfaces'
 
 // Define the initial state using that type
 const initialState: AuthState = {
@@ -17,8 +17,9 @@ export const authSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    login: (state, { payload }: PayloadAction<User>) => {
-      state.user = payload
+    login: (state, { payload }: PayloadAction<UserResponse>) => {
+      state.user = payload.user
+      state.token = payload.token
       state.status = 'authenticated'
     },
     logout: (state, { payload }: PayloadAction<{ errorMessage?: string }>) => {
