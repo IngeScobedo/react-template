@@ -1,4 +1,7 @@
 // Reducex states
+
+import { Note } from '../../notes/interfaces'
+
 // Define a type for the slice state
 export interface AuthState {
   user: User | undefined
@@ -7,6 +10,10 @@ export interface AuthState {
   errorMessage: string | undefined
   status: 'not-authenticated' | 'authenticated'
   token: string | undefined
+}
+
+export interface NotesState {
+  notes: Note[]
 }
 
 // RTK Query

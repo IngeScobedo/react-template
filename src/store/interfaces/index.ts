@@ -6,4 +6,5 @@ export type {
   ResetPasswordRequest,
   User,
   UserResponse,
+  NotesState,
 } from './interfaces'
