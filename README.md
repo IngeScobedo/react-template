@@ -15,8 +15,8 @@ npm >= v8.19.3
 
 Install the following extensions to VSCode
 * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint&ssr=false#review-details) - JavaScript Linter.
-* [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Dependency Management
-* [Prettier ESlint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint) - Used to generate RSS Feeds
+* [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Code Formatter
+* [Prettier ESlint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint) - Used to maintain the code style
 
 ### Installing
 
