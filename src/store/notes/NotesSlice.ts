@@ -53,13 +53,28 @@ export const NotesSlice = createSlice({
     deleteNote: (state, { payload }: PayloadAction<number>) => {
       state.notes = state.notes.filter((note) => note.id !== payload)
     },
-    editNote: (state, { payload }: PayloadAction<number>) => {
+    setNoteToEdit: (state, { payload }: PayloadAction<number | null>) => {
       const note = state.notes.filter((note) => note.id === payload)[0]
+      console.log(note, payload, state.notes)
       state.editingNote = note
+    },
+    editNote: (state, { payload }: PayloadAction<AddNoteInputs>) => {
+      const { editingNote } = state
+
+      if (editingNote) {
+        state.notes = state.notes.map((note) => {
+          if (note.id === editingNote.id) {
+            return { id: editingNote.id, ...payload }
+          }
+          return note
+        })
+        state.editingNote = null
+      }
     },
   },
 })
 
-export const { addNote, deleteNote, editNote } = NotesSlice.actions
+export const { addNote, deleteNote, setNoteToEdit, editNote } =
+  NotesSlice.actions
 
 export default NotesSlice.reducer

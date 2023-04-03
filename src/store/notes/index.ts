@@ -1,1 +1,7 @@
-export { NotesSlice, addNote, deleteNote, editNote } from './NotesSlice'
+export {
+  NotesSlice,
+  addNote,
+  deleteNote,
+  setNoteToEdit,
+  editNote,
+} from './NotesSlice'

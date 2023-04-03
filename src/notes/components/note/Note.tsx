@@ -3,7 +3,7 @@ import { Note as NoteProps } from '../../interfaces'
 import { FiEdit2 } from 'react-icons/fi'
 import { IoMdClose } from 'react-icons/io'
 import { useAppDispatch } from '../../../store'
-import { deleteNote, editNote } from '../../../store/notes'
+import { deleteNote, setNoteToEdit } from '../../../store/notes'
 
 import './Note.scss'
 
@@ -13,7 +13,8 @@ const Note = ({ id, title, body }: NoteProps) => {
     dispatch(deleteNote(id))
   }
   const handleEditNote = (id: number) => {
-    dispatch(editNote(id))
+    console.log(id)
+    dispatch(setNoteToEdit(id))
   }
   return (
     <Grid

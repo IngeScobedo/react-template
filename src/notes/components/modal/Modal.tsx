@@ -12,7 +12,7 @@ import { Button, Input } from '../../../ui'
 import BootstrapDialog from './BootstrapDialog'
 import BootstrapDialogTitle from './BootstrapDialogTitle'
 import { useAppDispatch, useAppSelector } from '../../../store'
-import { addNote } from '../../../store/notes'
+import { addNote, editNote, setNoteToEdit } from '../../../store/notes'
 import { AddNoteInputs } from '../../interfaces'
 import { AddNoteFormOptions } from './FormSchemas'
 
@@ -40,12 +40,19 @@ export const Modal = ({ modalTitle, buttonVariant }: Props) => {
     setOpen(true)
   }
   const handleClose = () => {
+    reset()
+    dispatch(setNoteToEdit(null))
     setOpen(false)
   }
   const onSubmit: SubmitHandler<AddNoteInputs> = (
     data: AddNoteInputs
   ): void => {
-    dispatch(addNote(data))
+    if (editingNote) {
+      dispatch(editNote(data))
+    } else {
+      dispatch(addNote(data))
+    }
+
     reset()
     handleClose()
   }
