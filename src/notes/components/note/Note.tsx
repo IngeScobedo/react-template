@@ -3,7 +3,7 @@ import { Note as NoteProps } from '../../interfaces'
 import { FiEdit2 } from 'react-icons/fi'
 import { IoMdClose } from 'react-icons/io'
 import { useAppDispatch } from '../../../store'
-import { deleteNote } from '../../../store/notes'
+import { deleteNote, editNote } from '../../../store/notes'
 
 import './Note.scss'
 
@@ -11,6 +11,9 @@ const Note = ({ id, title, body }: NoteProps) => {
   const dispatch = useAppDispatch()
   const handleDeleteNote = (id: number) => {
     dispatch(deleteNote(id))
+  }
+  const handleEditNote = (id: number) => {
+    dispatch(editNote(id))
   }
   return (
     <Grid
@@ -38,7 +41,10 @@ const Note = ({ id, title, body }: NoteProps) => {
         </Typography>
 
         <Grid sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <button className="note-action-button">
+          <button
+            onClick={() => handleEditNote(id)}
+            className="note-action-button"
+          >
             <FiEdit2 size={18} color="#6E6B7B" />
           </button>
           <button

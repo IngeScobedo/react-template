@@ -14,6 +14,7 @@ export interface AuthState {
 
 export interface NotesState {
   notes: Note[]
+  editingNote: Note | null
 }
 
 // RTK Query

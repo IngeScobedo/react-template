@@ -9,7 +9,7 @@ const Home = () => {
       <Navbar />
 
       {/* BUTTON: ADD NOTE */}
-      <Modal />
+      <Modal modalTitle="Agregar Nota" buttonVariant="add-note" />
 
       {/* NOTES LIST */}
       <NotesList />

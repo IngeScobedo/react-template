@@ -40,6 +40,7 @@ const initialState: NotesState = {
       body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
   ],
+  editingNote: null,
 }
 
 export const NotesSlice = createSlice({
@@ -52,9 +53,13 @@ export const NotesSlice = createSlice({
     deleteNote: (state, { payload }: PayloadAction<number>) => {
       state.notes = state.notes.filter((note) => note.id !== payload)
     },
+    editNote: (state, { payload }: PayloadAction<number>) => {
+      const note = state.notes.filter((note) => note.id === payload)[0]
+      state.editingNote = note
+    },
   },
 })
 
-export const { addNote, deleteNote } = NotesSlice.actions
+export const { addNote, deleteNote, editNote } = NotesSlice.actions
 
 export default NotesSlice.reducer

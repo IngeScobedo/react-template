@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import DialogActions from '@mui/material/DialogActions'
@@ -11,22 +11,30 @@ import { IoMdAddCircleOutline } from 'react-icons/io'
 import { Button, Input } from '../../../ui'
 import BootstrapDialog from './BootstrapDialog'
 import BootstrapDialogTitle from './BootstrapDialogTitle'
-import { useAppDispatch } from '../../../store'
+import { useAppDispatch, useAppSelector } from '../../../store'
 import { addNote } from '../../../store/notes'
 import { AddNoteInputs } from '../../interfaces'
 import { AddNoteFormOptions } from './FormSchemas'
 
 import './Modal.scss'
+import { FiEdit2 } from 'react-icons/fi'
 
-const Modal = () => {
+export interface Props {
+  modalTitle: string
+  buttonVariant: 'add-note' | 'edit-note'
+}
+
+export const Modal = ({ modalTitle, buttonVariant }: Props) => {
   const [open, setOpen] = useState(false)
+  const dispatch = useAppDispatch()
+  const { editingNote } = useAppSelector((state) => state.notes)
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm<AddNoteInputs>(AddNoteFormOptions)
-  const dispatch = useAppDispatch()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -42,18 +50,41 @@ const Modal = () => {
     handleClose()
   }
 
+  const setNoteToEditValues = () => {
+    if (!editingNote) return
+    editingNote && setOpen(true)
+    for (const field of Object.keys(editingNote)) {
+      if (field === 'title' || field === 'body') {
+        console.log(field, editingNote)
+        setValue(field, editingNote[field])
+      }
+    }
+  }
+
+  useEffect(() => {
+    console.log('editingNote', editingNote)
+    setNoteToEditValues()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingNote])
+
   return (
     <div>
       {/* BUTTON TO OPEN THE MODEL */}
-      <Grid sx={{ justifyContent: 'center', display: 'flex' }}>
-        <Button
-          startIcon={<IoMdAddCircleOutline />}
-          variant="contained"
-          onClick={handleClickOpen}
-        >
-          Agregar Nota
-        </Button>
-      </Grid>
+      {buttonVariant === 'add-note' ? (
+        <Grid sx={{ justifyContent: 'center', display: 'flex' }}>
+          <Button
+            startIcon={<IoMdAddCircleOutline />}
+            variant="contained"
+            onClick={handleClickOpen}
+          >
+            Agregar Nota
+          </Button>
+        </Grid>
+      ) : (
+        <button className="note-action-button" onClick={handleClickOpen}>
+          <FiEdit2 size={18} color="#6E6B7B" />
+        </button>
+      )}
 
       {/* MODAL TO ADD NOTE */}
       <BootstrapDialog
@@ -69,7 +100,7 @@ const Modal = () => {
             onClose={handleClose}
           >
             <IoMdAddCircleOutline size={18} color="#5E5873" />
-            <Typography variant="AddNoteModalHeader">Agregar Nota</Typography>
+            <Typography variant="AddNoteModalHeader">{modalTitle}</Typography>
           </BootstrapDialogTitle>
 
           {/* BODY/CONTENT */}
