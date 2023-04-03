@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { AuthLayout } from '../layout/'
 import { Input, Button } from '../../ui/'
@@ -25,6 +25,7 @@ const RestorePassword = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm<RestorePasswordInputs>(resetPasswordFormOptions)
 
   const onSubmit: SubmitHandler<RestorePasswordInputs> = async (
@@ -41,8 +42,10 @@ const RestorePassword = () => {
   const handleInputError = (name: keyof RestorePasswordInputs) => {
     const error = errors[name]
     if (error) {
+      setFocus(name)
       return error.message
     }
+    setFocus(name)
     return inputErrors[name]
   }
 
@@ -66,6 +69,7 @@ const RestorePassword = () => {
             placeholder="Ingresar nueva contraseña"
             errorMessage={handleInputError('password')}
             disabled={isLoading}
+            autoFocus
             {...register('password')}
           />
           <Input

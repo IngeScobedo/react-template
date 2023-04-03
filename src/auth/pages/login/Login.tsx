@@ -15,6 +15,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<LoginInputs>(LoginFormOptions)
 
@@ -31,6 +32,7 @@ const Login = () => {
 
   const handleInputError = (name: keyof LoginInputs) => {
     const error = errors[name]
+    setFocus(name)
     if (error) {
       return error.message
     }
@@ -48,6 +50,7 @@ const Login = () => {
             label="Correo Electrónico"
             variant="email"
             id={'email-input'}
+            autoFocus
             placeholder="Ingresa tu Correo Electrónico"
             disabled={isLoading}
             errorMessage={handleInputError('email')}

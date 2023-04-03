@@ -16,6 +16,7 @@ const RecoverPassword = () => {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<RecoverPasswordInputs>()
   const { recoverPassword, isLoading } = useRecoverPassword()
@@ -33,8 +34,10 @@ const RecoverPassword = () => {
   const handleInputError = (name: keyof RecoverPasswordInputs) => {
     const error = errors[name]
     if (error) {
+      setFocus(name)
       return error.message
     }
+    setFocus(name)
     return inputErrors[name]
   }
   return (
@@ -50,6 +53,7 @@ const RecoverPassword = () => {
             type="email"
             errorMessage={handleInputError('email')}
             disabled={isLoading}
+            autoFocus
             {...register('email', {
               required: true,
               pattern: {

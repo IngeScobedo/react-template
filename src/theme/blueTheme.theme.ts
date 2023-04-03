@@ -12,6 +12,7 @@ declare module '@mui/material/styles' {
     link: React.CSSProperties
     buttonLink: React.CSSProperties
     navbarUserLabel: React.CSSProperties
+    AddNoteModalHeader: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
@@ -20,6 +21,7 @@ declare module '@mui/material/styles' {
     link?: React.CSSProperties
     buttonLink?: React.CSSProperties
     navbarUserLabel?: React.CSSProperties
+    AddNoteModalHeader?: React.CSSProperties
   }
 
   interface PaletteOptions {
@@ -41,6 +43,7 @@ declare module '@mui/material/Typography' {
     link: true
     buttonLink: true
     navbarUserLabel: true
+    AddNoteModalHeader: true
   }
 }
 
@@ -111,6 +114,13 @@ const blueTheme = createTheme({
       fontSize: '14px',
       fontWeight: '500',
       lineHeight: '18px',
+    },
+    AddNoteModalHeader: {
+      fontSize: '18px',
+      color: '#5E5873',
+      fontWeight: '500',
+      lineHeight: '20px',
+      marginLeft: '15px',
     },
   },
 })

@@ -1,55 +1,95 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { default as MuiModal } from '@mui/material/Modal'
 import { useState } from 'react'
-import { Button } from '../../../ui'
-import { MdOutlineAddCircleOutline } from 'react-icons/md'
-import { Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
 
-const style = {
-  position: 'absolute' as const,
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
+import { IoMdAddCircleOutline } from 'react-icons/io'
+
+import { Button, Input, Textarea } from '../../../ui'
+import BootstrapDialog from './BootstrapDialog'
+import BootstrapDialogTitle from './BootstrapDialogTitle'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useAppDispatch } from '../../../store'
+import { addNote } from '../../../store/notes'
+import { Note } from '../../interfaces'
 
 const Modal = () => {
   const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const { register, handleSubmit } = useForm<Note>()
+  const dispatch = useAppDispatch()
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
+  const onSubmit: SubmitHandler<Note> = (data: Note): void => {
+    dispatch(addNote(data))
+  }
+
   return (
-    <Grid sx={{ justifyContent: 'center', display: 'flex' }}>
-      <Button
-        onClick={handleOpen}
-        variant="contained"
-        sx={{
-          background: 'linear-gradient(45deg, #3554D1 0%, #8B9AD7 100%)',
-        }}
-        startIcon={<MdOutlineAddCircleOutline />}
-      >
-        Agregar Nota
-      </Button>
-      <MuiModal
-        open={open}
+    <div>
+      {/* BUTTON TO OPEN THE MODEL */}
+      <Grid sx={{ justifyContent: 'center', display: 'flex' }}>
+        <Button
+          startIcon={<IoMdAddCircleOutline />}
+          variant="contained"
+          onClick={handleClickOpen}
+        >
+          Agregar Nota
+        </Button>
+      </Grid>
+
+      {/* MODAL TO ADD NOTE */}
+      <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="customized-dialog-title"
+        open={open}
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </MuiModal>
-    </Grid>
+        {/* HEADER/TITLE */}
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
+          <IoMdAddCircleOutline size={18} color="#5E5873" />
+          <Typography variant="AddNoteModalHeader">Agregar Nota</Typography>
+        </BootstrapDialogTitle>
+
+        {/* BODY/CONTENT */}
+        <DialogContent dividers>
+          <form id="login-form" onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Input
+                variant="note-title"
+                label="Titulo de la nota"
+                placeholder="Ingresar Titulo"
+                {...register('title')}
+              />
+              <Textarea
+                variant="body-note"
+                label="Cuerpo de la nota"
+                placeholder="Ingresa el cuerpo"
+                {...register('body')}
+              />
+            </Grid>
+          </form>
+        </DialogContent>
+
+        {/* BOTTOM BOTTONS */}
+        <DialogActions>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: '#3554D1' }}
+            autoFocus
+            onClick={handleClose}
+          >
+            Añadir Nota
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
+    </div>
   )
 }
 
