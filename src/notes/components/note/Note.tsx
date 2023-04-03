@@ -1,7 +1,17 @@
 import { Grid, Typography } from '@mui/material'
 import { Note as NoteProps } from '../../interfaces'
+import { FiEdit2 } from 'react-icons/fi'
+import { IoMdClose } from 'react-icons/io'
+import { useAppDispatch } from '../../../store'
+import { deleteNote } from '../../../store/notes'
 
-const Note = ({ title, body }: NoteProps) => {
+import './Note.scss'
+
+const Note = ({ id, title, body }: NoteProps) => {
+  const dispatch = useAppDispatch()
+  const handleDeleteNote = (id: number) => {
+    dispatch(deleteNote(id))
+  }
   return (
     <Grid
       container
@@ -14,8 +24,30 @@ const Note = ({ title, body }: NoteProps) => {
       }}
     >
       {/* Header/Title */}
-      <Grid sx={{ padding: '15px 15px 10px' }}>
-        <Typography>{title}</Typography>
+      <Grid
+        sx={{
+          padding: '15px 15px 10px',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Typography
+          sx={{ color: '#5E5873', fontWeight: '500', lineHeight: '24px' }}
+        >
+          {title}
+        </Typography>
+
+        <Grid sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <button className="note-action-button">
+            <FiEdit2 size={18} color="#6E6B7B" />
+          </button>
+          <button
+            onClick={() => handleDeleteNote(id)}
+            className="note-action-button"
+          >
+            <IoMdClose size={26} color="#6E6B7B" />
+          </button>
+        </Grid>
       </Grid>
       <hr style={{ width: '100%', margin: '0', border: '1px solid #EBE9F1' }} />
       {/* Body */}

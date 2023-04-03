@@ -3,3 +3,8 @@ export interface Note {
   title: string
   body: string
 }
+
+export interface AddNoteInputs {
+  title: string
+  body: string
+}

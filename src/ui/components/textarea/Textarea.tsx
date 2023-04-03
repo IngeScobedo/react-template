@@ -1,25 +1,59 @@
-import { Grid } from '@mui/material'
+import { Grid, InputLabel } from '@mui/material'
+import { DetailedHTMLProps, forwardRef, TextareaHTMLAttributes } from 'react'
 
-export interface Props {
+import './Textarea.scss'
+export interface Props
+  extends DetailedHTMLProps<
+    TextareaHTMLAttributes<HTMLTextAreaElement>,
+    HTMLTextAreaElement
+  > {
   variant: 'body-note'
   label: string
 }
 
-const Textarea = (props: Props) => {
+// const Textarea = ({ id, label, ...props }: Props) => {
+//   return (
+//     <Grid item xs={12}>
+//       <div className="textarea-wrapper">
+//         <Grid
+//           item
+//           sx={{ display: 'flex', justifyContent: 'space-between' }}
+//           xs={12}
+//         >
+//           <InputLabel
+//             sx={{ color: 'text.secondary', fontSize: '12px' }}
+//             htmlFor={id}
+//           >
+//             {label}
+//           </InputLabel>
+//         </Grid>
+//         <textarea id={id} {...props} />
+//       </div>
+//     </Grid>
+//   )
+// }
+
+// eslint-disable-next-line react/display-name
+const Textarea = forwardRef(({ id, label, ...props }: Props, ref) => {
   return (
     <Grid item xs={12}>
       <div className="textarea-wrapper">
-        <textarea
-          style={{
-            borderRadius: '6px',
-            border: '1px solud #D8D6DE',
-            padding: '8px 14px',
-          }}
-          {...props}
-        />
+        <Grid
+          item
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+          xs={12}
+        >
+          <InputLabel
+            sx={{ color: 'text.secondary', fontSize: '12px' }}
+            htmlFor={id}
+          >
+            {label}
+          </InputLabel>
+        </Grid>
+        <textarea id={id} {...props} />
       </div>
     </Grid>
   )
-}
+})
 
 export default Textarea

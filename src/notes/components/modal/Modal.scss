@@ -28,3 +28,19 @@
         }
     }
 }
+
+.input-error {
+    border: 1px solid #EA5455 !important;
+
+    &::placeholder {
+        color: #EA5455 !important;
+    }
+}
+
+.body-error-message {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    line-height: 24px;
+    color: #EA5455;
+}

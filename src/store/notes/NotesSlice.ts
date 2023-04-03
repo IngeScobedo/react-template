@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Note } from '../../notes/interfaces'
+import { AddNoteInputs } from '../../notes/interfaces'
 import { NotesState } from '../interfaces'
 
 const initialState: NotesState = {
@@ -46,8 +46,8 @@ export const NotesSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
-    addNote: (state, { payload }: PayloadAction<Note>) => {
-      state.notes.push(payload)
+    addNote: (state, { payload }: PayloadAction<AddNoteInputs>) => {
+      state.notes.push({ id: new Date().getTime(), ...payload })
     },
     deleteNote: (state, { payload }: PayloadAction<number>) => {
       state.notes = state.notes.filter((note) => note.id !== payload)

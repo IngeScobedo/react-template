@@ -12,6 +12,9 @@ const BootstrapDialog = styled(Dialog)(() => ({
     borderRadius: '6px',
     boxShadow: ' 0px 4px 15px rgba(44, 63, 88, 0.35)',
   },
+  '& .MuiBackdrop-root': {
+    backgroundColor: 'rgba(77, 77, 77, 0.2) !important',
+  },
 }))
 
 export default BootstrapDialog

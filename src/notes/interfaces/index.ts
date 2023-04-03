@@ -1,1 +1,1 @@
-export type { Note } from './interfaces'
+export type { Note, AddNoteInputs } from './interfaces'
