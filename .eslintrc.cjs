@@ -19,11 +19,8 @@ module.exports = {
     },
     ecmaVersion: 2021,
     sourceType: 'module',
-    project: {
-      extends: ['./tsconfig.json'],
-      include: ['./.eslintrc.cjs']
-    },
-    EXPERIMENTAL_useSourceOfProjectReferenceRedirect: true
+    project: './tsconfig.json',
+    EXPERIMENTAL_useSourceOfProjectReferenceRedirect: true,
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
@@ -34,5 +31,4 @@ module.exports = {
       version: 'detect',
     },
   },
-  "ignorePattens": ['.eslintrc.cjs']
 }

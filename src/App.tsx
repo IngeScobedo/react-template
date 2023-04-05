@@ -1,34 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import './App.scss'
-
+import Input from './components/Input'
+import FileUploadInput from './components/FileUploadInput'
+import { useForm } from 'react-hook-form'
+export interface Inputs {
+  nombre: string
+  situacion: string
+  cp: string
+  regimen: string
+}
 const App = () => {
-  const [count, setCount] = useState(0)
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>()
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => console.log(data)
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="form-container min-w-screen min-h-screen max-w-screen max-h-screen">
+      {/* FORM */}
+      <div className="flex justify-center items-center flex-col">
+        <h1 className="title">Facturacion electronica</h1>
+        <form className="max-w-[407px] p-8 flex flex-col space-y-3">
+          <Input label="Nombre" placeholder="Ingresa el nombre..." />
+          <Input
+            label="Situacion"
+            placeholder="Ingresa la situación fiscal..."
+          />
+          <Input label="CP" placeholder="Ingresa el codigo postal..." />
+          <Input label="Regimen" placeholder="Ingresa el regimen..." />
+
+          <button className="w-[347px] h-[38px] rounded-md bg-blue-600 mt-8 text-white font-bold">
+            Enviar
+          </button>
+        </form>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      {/* FILE UPLOAD */}
+      <div className="bg-blue-600 flex justify-center items-center">
+        <FileUploadInput />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }

@@ -4,10 +4,10 @@ import { screen } from './utils'
 import App from '../App'
 
 describe('App', () => {
-    afterEach(cleanup)
+  afterEach(cleanup)
 
-    it('should render App', (): void => {
-        render(<App />)
-        screen.queryAllByText(/Vite/i)
-    })
+  it('should render App', (): void => {
+    render(<App />)
+    screen.queryAllByText(/Vite/i)
+  })
 })
