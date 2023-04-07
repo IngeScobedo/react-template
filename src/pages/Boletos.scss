@@ -1,0 +1,12 @@
+.ticket-list::-webkit-scrollbar {
+    display: none;
+}
+
+.ticket-list::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.ticket-list::-webkit-scrollbar-thumb {
+    background-color: #FAFAFA;
+    outline: 1px solid slategrey;
+}
