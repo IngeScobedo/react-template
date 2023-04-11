@@ -1,6 +1,12 @@
 import Input from './components/Input'
 import FileUploadInput from './components/FileUploadInput'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import ConnectionState from './components/ConnectionState'
+import Events from './components/Events'
+import ConnectionManager from './components/ConnectionManager'
+import Form from './components/Form'
+import React, { useState, useEffect } from 'react'
+import { socket } from './socket'
 export interface Inputs {
   nombre: string
   situacion: string
@@ -8,6 +14,8 @@ export interface Inputs {
   regimen: string
 }
 const App = () => {
+  const [isConnected, setIsConnected] = useState(socket.connected)
+  const [fooEvents, setFooEvents] = useState<string[]>([])
   const {
     register,
     handleSubmit,
@@ -15,6 +23,30 @@ const App = () => {
     formState: { errors },
   } = useForm<Inputs>()
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => console.log(data)
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true)
+    }
+
+    function onDisconnect() {
+      setIsConnected(false)
+    }
+
+    function onFooEvent(value: string) {
+      setFooEvents((previous) => [...previous, value])
+    }
+
+    socket.on('connect', onConnect)
+    socket.on('disconnect', onDisconnect)
+    socket.on('foo', onFooEvent)
+
+    return () => {
+      socket.off('connect', onConnect)
+      socket.off('disconnect', onDisconnect)
+      socket.off('foo', onFooEvent)
+    }
+  }, [])
   return (
     <div className="form-container min-w-screen min-h-screen max-w-screen max-h-screen">
       {/* FORM */}
@@ -33,6 +65,13 @@ const App = () => {
             Enviar
           </button>
         </form>
+
+        <div className="App">
+          <ConnectionState isConnected={isConnected} />
+          <Events events={fooEvents} />
+          <ConnectionManager />
+          <Form />
+        </div>
       </div>
 
       {/* FILE UPLOAD */}
