@@ -79,6 +79,21 @@ const App = () => {
         <FileUploadInput />
       </div>
     </div>
+=======
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import AppRouter from './router/AppRouter'
+
+import { store } from './store/store'
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </Provider>
+>>>>>>> 8c63cfc357a7b315d57b43f54901b0c4577f93e2
   )
 }
 
