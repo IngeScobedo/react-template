@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { SubmitHandler, useForm } from 'react-hook-form'
 import FileUploadInput from '../components/FileUploadInput'
@@ -9,6 +10,14 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { setConfirmPersonalData, setUserData } from '../store/UserSlice'
 import Modal from 'react-bootstrap/Modal'
 import { useEffect, useState } from 'react'
+import { socket } from '../socket'
+
+export interface User {
+  nombre: string
+  cp: string
+  regimen: string
+  situacion: string
+}
 
 const JsSchema = Yup.object().shape({
   nombre: Yup.string().required('Value is mendatory'),
@@ -23,18 +32,18 @@ const InformacionFacturacion = () => {
   const [isValid, setIsValid] = useState(false)
   const [show, setShow] = useState<boolean>(true)
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false)
+
   const dispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.user)
+
   const { register, setValue, handleSubmit, formState } =
     useForm<Inputs>(optionsDf)
   const { errors, isLoading } = formState
+
   const onSubmit: SubmitHandler<Inputs> = () => {
-    console.log(isValid)
     if (!isValid) return
     dispatch(setConfirmPersonalData())
   }
-
-  const isInputDisabled = isLoading
 
   const handleErrors = (err: string | undefined) => {
     if (typeof err !== 'string') return ''
@@ -42,24 +51,26 @@ const InformacionFacturacion = () => {
   }
 
   const handleClose = () => setShow(false)
-  const handleOpen = () => setShow(true)
 
   useEffect(() => {
-    const { nombre, cp, situacion, regimen } = user
-    const isValidForm = nombre && cp && regimen && situacion ? true : false
-    setValue('nombre', nombre)
-    setValue('cp', cp)
-    setValue('regimen', regimen)
-    setValue('situacion', situacion)
-    setIsValid(isValidForm)
-    if (isValidForm) {
-      setShowSuccessMessage(true)
+    socket.on('finishpdf2img', (userResponse: Inputs) => {
+      dispatch(setUserData(user))
+      const { nombre, cp, situacion, regimen } = userResponse
+      const isValidForm = nombre && cp && regimen && situacion ? true : false
+      setValue('nombre', nombre)
+      setValue('cp', cp)
+      setValue('regimen', regimen)
+      setValue('situacion', situacion)
+      setIsValid(isValidForm)
+      if (isValidForm) {
+        setShowSuccessMessage(true)
 
-      setTimeout(() => {
-        setShowSuccessMessage(false)
-      }, 3000)
-    }
-  }, [user])
+        setTimeout(() => {
+          setShowSuccessMessage(false)
+        }, 3000)
+      }
+    })
+  }, [socket])
 
   return (
     <div className="w-screen flex flex-col-reverse px-4 py-10 gap-5 pb-10 lg:w-screen lg:h-screen lg:grid lg:grid-cols-2">
@@ -113,7 +124,7 @@ const InformacionFacturacion = () => {
           />
 
           <button
-            disabled={isInputDisabled}
+            disabled={isLoading}
             className="lg:w-[347px] h-[38px] rounded-md bg-blue-600 mt-8 text-white font-bold disabled:bg-blue-300 disabled:cursor-not-allowed"
           >
             Siguiente

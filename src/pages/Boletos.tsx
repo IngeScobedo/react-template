@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Input from '../components/Input'
 import { IoMdAddCircleOutline } from 'react-icons/io'
 import { BsFillSendFill } from 'react-icons/bs'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { setTikets } from '../store/UserSlice'
 import { IoIosRemoveCircle } from 'react-icons/io'
 import './Boletos.scss'
@@ -34,7 +34,8 @@ const JsSchema = Yup.object().shape({
 
 const Boletos = () => {
   const dispatch = useAppDispatch()
-  const [boletos] = useState<Boleto[]>([
+  const { user, boletos } = useAppSelector((state) => state.user)
+  const [initialTickets] = useState<Boleto[]>([
     {
       no: 'BXXXA000',
       clave: '',
@@ -43,10 +44,11 @@ const Boletos = () => {
 
   const { control, formState, handleSubmit, register } = useForm<Form>({
     resolver: yupResolver(JsSchema),
-    defaultValues: { boletos: boletos },
+    defaultValues: { boletos: initialTickets },
   })
   const onSubmit: SubmitHandler<Form> = (data) => {
     dispatch(setTikets(data.boletos))
+    console.log({ user, boletos })
   }
   const { errors, isValid } = formState
   const { fields, append, remove } = useFieldArray({
@@ -71,9 +73,6 @@ const Boletos = () => {
     return error
   }
 
-  useEffect(() => {
-    console.log('fields', fields)
-  }, [fields])
   return (
     <div
       id="boletos"

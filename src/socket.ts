@@ -1,8 +1,10 @@
 import { io } from 'socket.io-client'
 
+const HOST = window.location.hostname
+console.log(import.meta.env)
 const URL =
-  import.meta.env.NODE_ENV === 'production'
-    ? 'http://localhost:3000'
-    : 'http://localhost:3000/pdf2img'
+  import.meta.env.MODE !== 'development'
+    ? `https://${HOST}/pdf2img`
+    : `http://${HOST}:3000/pdf2img`
 
 export const socket = io(URL)

@@ -3,6 +3,9 @@
 import { ChangeEvent, useState, useEffect } from 'react'
 import './FileInput.css'
 import { socket } from '../socket'
+import { useAppDispatch } from '../store/hooks'
+import { setUserData } from '../store/UserSlice'
+import { Inputs } from '../interfaces/interfaces'
 
 export interface pdf2imgProps {
   sender: string
@@ -11,6 +14,7 @@ export interface pdf2imgProps {
 }
 
 const FileUploadInput = () => {
+  const dispatch = useAppDispatch()
   const [files, setFiles] = useState<FileList>()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -27,7 +31,6 @@ const FileUploadInput = () => {
 
     const form = new FormData()
     files && form.append('pdfFile', files[0])
-    console.log(files)
     if (!files) return
 
     const reader = new FileReader()
@@ -36,11 +39,10 @@ const FileUploadInput = () => {
       const payload: pdf2imgProps = {
         sender: 'Alan',
         file: fileArrayBuffer,
-        room: '1',
+        room: new Date().getTime().toString(),
       }
       // eslint-disable-next-line @typescript-eslint/await-thenable
       await socket.emit('pdf2img', payload, () => {
-        console.log('TERMINO EMIT PDF2IMG')
         setIsLoading(false)
       })
     }
@@ -51,14 +53,15 @@ const FileUploadInput = () => {
     // })
     //   .then((res) => res.json())
     //   .then((data) => {
-    //     console.log(data)
     //   })
   }
 
   useEffect(() => {
-    socket.on('received-files', (data) => {
-      console.log('RESPUESTA DEL SERVER', data)
+    socket.on('finishpdf2img', (user: Inputs) => {
+      dispatch(setUserData(user))
+      setIsLoading(false)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket])
 
   return (
@@ -66,13 +69,13 @@ const FileUploadInput = () => {
       <div className="border-2 border-dashed w-full rounded-xl md:w-[350px] border-blue-600 flex justify-center items-center p-4">
         <label className="label w-10/12 text-center">
           <span className="browse-files font-bold">
-            <input
-              onChange={handleChange}
-              type="file"
-              className="default-file-input"
-            />
             {!isLoading ? (
               <>
+                <input
+                  onChange={handleChange}
+                  type="file"
+                  className="default-file-input"
+                />
                 <span className="browse-files-text text-blue-600">
                   Busca tu constancia
                 </span>
@@ -86,7 +89,6 @@ const FileUploadInput = () => {
           </span>
         </label>
       </div>
-      {isLoading ? <h1>isloading</h1> : <h1>not loading</h1>}
       <span className="cannot-upload-message">
         <span className="material-icons-outlined">error</span> Please select a
         file first
